@@ -11,14 +11,14 @@
 
 'use strict';
 
-console.log('\n\n\nrpm source code loaded.\n\n\n');
-
+console.log(`\n\n\n~~~ react-rpm module loaded ~~~\n\n\n`);
 var _assign = require('object-assign');
 
 var _extends = _assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var ReactDebugTool = require('./ReactDebugTool');
+var ReactDebugTool = require('react-dom/lib/ReactDebugTool');
 var alreadyWarned = false;
+
 
 function roundFloat(val) {
   var base = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 2;
@@ -370,8 +370,20 @@ function printExclusive(flushHistory) {
       'Total lifecycle time (ms)': roundFloat(totalDuration - renderDuration)
     };
   });
-  consoleTable(table);
+  // console.log('coming from npm:',table);
+  // window.postMessage({
+  //     source: 'react-rpm-module',
+  //     perfs: table
+  //   }, '*');
 }
+
+
+function receiveMessage(event){
+  console.log('message received in npm module:',event.data);
+}
+
+window.addEventListener('message', receiveMessage, false);
+
 
 function printInclusive(flushHistory) {
   if (!(process.env.NODE_ENV !== 'production')) {
@@ -458,7 +470,7 @@ function start() {
     warnInProduction();
     return;
   }
-
+  console.log('>>> react-rpm >>> starting perf collection...')
   ReactDebugTool.beginProfiling();
 }
 
@@ -467,7 +479,7 @@ function stop() {
     warnInProduction();
     return;
   }
-
+  console.log('>>> react-rpm >>> stopping perf collection...')
   ReactDebugTool.endProfiling();
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "react-rpm",
+  "name": "react-rpm-node",
   "version": "1.0.0",
   "description": "NPM module for react-rpm Chrome developers tool",
   "main": "index.js",
