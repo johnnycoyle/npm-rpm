@@ -12,11 +12,28 @@
 'use strict';
 
 console.log(`\n\n\n~~~ react-rpm module loaded ~~~\n\n\n`);
+
+var ReactDebugTool = require('react-dom/lib/ReactDebugTool');
+
+const MutationObserver = window.MutationObserver;
+  start();
+  var observer = new MutationObserver((mutations, observer) => {
+    console.log('*RENDER*');
+    stop();
+    printExclusive();
+    start();
+  })
+
+  observer.observe(document, {
+    subtree: true,
+    attributes: true
+  });
+
 var _assign = require('object-assign');
 
 var _extends = _assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var ReactDebugTool = require('react-dom/lib/ReactDebugTool');
+
 var alreadyWarned = false;
 
 
@@ -370,11 +387,10 @@ function printExclusive(flushHistory) {
       'Total lifecycle time (ms)': roundFloat(totalDuration - renderDuration)
     };
   });
-  // console.log('coming from npm:',table);
-  // window.postMessage({
-  //     source: 'react-rpm-module',
-  //     perfs: table
-  //   }, '*');
+  window.postMessage({
+      source: 'react-rpm-module',
+      message: table
+    }, '*');
 }
 
 
