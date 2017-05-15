@@ -10,17 +10,21 @@
  */
 
 'use strict';
-
-console.log(`\n\n\n~~~ react-rpm module loaded ~~~\n\n\n`);
-
 var ReactDebugTool = require('react-dom/lib/ReactDebugTool');
-
 const MutationObserver = window.MutationObserver;
   start();
+  let perfObject;
   var observer = new MutationObserver((mutations, observer) => {
-    console.log('*RENDER*');
+    perfObject = {};
     stop();
-    printExclusive();
+    perfObject['wasted'] = printWasted();
+    perfObject['inclusive'] = printInclusive();
+    perfObject['exclusive'] = printExclusive();
+    perfObject['dom'] = printOperations();
+    window.postMessage({
+      source: 'react-rpm-module',
+      message: perfObject
+    }, '*');
     start();
   })
 
@@ -387,10 +391,7 @@ function printExclusive(flushHistory) {
       'Total lifecycle time (ms)': roundFloat(totalDuration - renderDuration)
     };
   });
-  window.postMessage({
-      source: 'react-rpm-module',
-      message: table
-    }, '*');
+  return table;
 }
 
 
@@ -421,7 +422,7 @@ function printInclusive(flushHistory) {
       'Render count': renderCount
     };
   });
-  consoleTable(table);
+  return table;
 }
 
 function printWasted(flushHistory) {
@@ -444,7 +445,7 @@ function printWasted(flushHistory) {
       'Render count': renderCount
     };
   });
-  consoleTable(table);
+  return table;
 }
 
 function printOperations(flushHistory) {
@@ -464,7 +465,7 @@ function printOperations(flushHistory) {
       'DOM Component ID': stat.instanceID
     };
   });
-  consoleTable(table);
+  return table;
 }
 
 var warnedAboutPrintDOM = false;
