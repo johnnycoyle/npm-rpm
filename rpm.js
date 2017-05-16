@@ -21,6 +21,7 @@ const MutationObserver = window.MutationObserver;
     perfObject['inclusive'] = printInclusive();
     perfObject['exclusive'] = printExclusive();
     perfObject['dom'] = printOperations();
+    // console.log(consoleTable(printExclusive()))
     window.postMessage({
       source: 'react-rpm-module',
       message: perfObject
@@ -29,6 +30,8 @@ const MutationObserver = window.MutationObserver;
   })
 
   observer.observe(document, {
+    childList: true,
+    characterData:true,
     subtree: true,
     attributes: true
   });
