@@ -10,18 +10,24 @@
  */
 
 'use strict';
+var fbjs = require('fbjs');
+var reactAddonsPerf = require('react-addons-perf');
 var ReactDebugTool = require('react-dom/lib/ReactDebugTool');
 const MutationObserver = window.MutationObserver;
   start();
   let perfObject;
   var observer = new MutationObserver((mutations, observer) => {
+    console.log('Mutation observer loaded -- watching DOM for changes...');
     perfObject = {};
     stop();
     perfObject['wasted'] = printWasted();
     perfObject['inclusive'] = printInclusive();
     perfObject['exclusive'] = printExclusive();
     perfObject['dom'] = printOperations();
-    // console.log(consoleTable(printExclusive()))
+    console.log('EXCLUSIVE:\n')
+    consoleTable(printExclusive()) 
+    console.log('WASTED:\n');
+    consoleTable(printWasted());
     window.postMessage({
       source: 'react-rpm-module',
       message: perfObject

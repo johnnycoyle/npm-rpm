@@ -1,6 +1,10 @@
 
-console.log('/ / / / / / / / / \n',
-            'react-rpm initiated\n',
-            '/ / / / / / / / / \n',);
+console.log('\n',
+            '______________________',
+            '/ / / / / / / / / / / /\n',
+            '/    react-rpm NPM    /\n',
+            '/ / / / / / / / / / / /\n',
+            '______________________',
+            );
 
 module.exports = require('./rpm.js');
