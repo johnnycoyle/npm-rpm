@@ -20,5 +20,9 @@
     "fbjs": "^0.x",
     "object-assign": "^4.x",
     "react-addons-perf": "^15.x"
+  },
+  "devDependencies": {
+    "fbjs": "^0.8.12",
+    "react-addons-perf": "^15.4.2"
   }
 }
